@@ -1,22 +1,30 @@
 var img1;
 var img2;
 var img3;
+var imgc1;
+var imgc2;
 var imgShift = -215;
 var controlShiftX = 215;
 var controlShiftY = 5;
-var originalZoom = 15; //change based off of size of original pictures (will make slider in interface later)
 var numStripesSlider, stripeSizeSlider, zoomSlider, patternSlider;
+var saveButton;
+var fileName;
+var savedFile;
 
-function preload() {  //sometimes img1 and img2 won't load correctly aka they will be loaded with width = height = 1 (not yet sure what's up with the libraries)
+function preload() {
   img1 = loadImage("images/florence.jpg");
+  imgc1 = loadImage("images/florence.jpg"); //same image as img1
   img2 = loadImage("images/yflorence.jpg");
-  img3 = loadImage("images/yflorence2.jpg"); //second image won't load without loading a third image??? not sure whats going on
+  imgc2 = loadImage("images/yflorence.jpg"); //same image as img2
+  img3 = loadImage("images/yflorence2.jpg");
 }
 
 function setup() {
-  createCanvas(img1.width + 240, img1.height);
-  image(img1, 5, 220 + imgShift, 202, img1.height/originalZoom); //image(img1, 5, 220 + imgShift, img1.width/originalZoom, img1.height/originalZoom);
-  image(img2, 5, img1.height/originalZoom + 235 + imgShift, 202, img2.height/originalZoom); //image(img2, 5, img1.height/originalZoom + 235 + imgShift, img2.width/originalZoom, img2.height/originalZoom);
+  createCanvas(img1.width + 500, img1.height);
+  imgc1.resize(202, 0);
+  imgc2.resize(202, 0);
+  image(imgc1, 5, 220 + imgShift, 202, imgc1.height);
+  image(imgc2, 5, imgc1.height + 235 + imgShift, 202, imgc2.height);
   console.log("first image width: " + img1.width + " height: " + img1.height);
   console.log("second image width: " + img2.width + " height: " + img2.height);
 
@@ -26,23 +34,29 @@ function setup() {
   stripeSizeSlider.position(27 + controlShiftX, 85 + controlShiftY);
   zoomSlider = createSlider(1, 10, 1, 1/4);
   zoomSlider.position(27 + controlShiftX, 135 + controlShiftY);
-  patternSlider = createSlider(1, 2, 1); //maybe replace with a button?
+  patternSlider = createSlider(1, 2, 1);
   patternSlider.position(27 + controlShiftX, 185 + controlShiftY);
+
+  fileName = createInput();
+  fileName.position(27 + controlShiftX, 235 + controlShiftY);
+  saveButton = createButton('go!');
+  saveButton.position(168 + controlShiftX, 235 + controlShiftY);
+  saveButton.mousePressed(savePicture);
 
 }
 
 function draw() {
   noStroke();
   fill(255);
-  rect(225, 0, img1.width + 100, img1.height + img2.height);
+  rect(435, 0, img1.width, img1.height + img2.height);
   stroke(0);
   strokeWeight(2);
-  rect(6 + controlShiftX, 1 + controlShiftY, 200, 205);
+  rect(6 + controlShiftX, 1 + controlShiftY, 200, 255);
 
   var numstripes = numStripesSlider.value();
   var stripesize = stripeSizeSlider.value();
   var zoom = zoomSlider.value();
-  var shape = patternSlider.value(); //maybe replace with a button?
+  var shape = patternSlider.value();
   var horizontal = false;
 
   textSize(15);
@@ -51,8 +65,9 @@ function draw() {
   text('number of stripes = ' + numStripesSlider.value(), 20 + controlShiftX, 25 + controlShiftY);
   text('stripe size = ' + stripeSizeSlider.value(), 20 + controlShiftX, 75 + controlShiftY);
   text('zoom = 1/' + zoomSlider.value(), 20 + controlShiftX, 125 + controlShiftY);
+  text('save (name)', 20 + controlShiftX, 220 + controlShiftY);
 
-  if(patternSlider.value() == 1){ //maybe replace with a button?
+  if(patternSlider.value() == 1){
     text('pattern = horizontal', 20 + controlShiftX, 175 + controlShiftY);
   } else {
     text('pattern = vertical', 20 + controlShiftX, 175 + controlShiftY);
@@ -77,4 +92,9 @@ function draw() {
     }
   }
 
+  savedFile = get(435, 5, img1.width/zoom, img1.height/zoom);
+}
+
+function savePicture() {
+  save(savedFile, fileName.value() + '.jpg');
 }

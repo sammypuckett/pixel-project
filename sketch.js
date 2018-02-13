@@ -12,11 +12,11 @@ var fileName;
 var savedFile;
 
 function preload() {
-  img1 = loadImage("images/florence.jpg");
-  imgc1 = loadImage("images/florence.jpg"); //same image as img1
-  img2 = loadImage("images/yflorence.jpg");
-  imgc2 = loadImage("images/yflorence.jpg"); //same image as img2
-  img3 = loadImage("images/yflorence2.jpg");
+  img1 = loadImage("images/florence.JPG");
+  imgc1 = loadImage("images/florence.JPG"); //same image as img1
+  img2 = loadImage("images/yflorence.JPG");
+  imgc2 = loadImage("images/yflorence.JPG"); //same image as img2
+  img3 = loadImage("images/yflorence2.JPG");
 }
 
 function setup() {

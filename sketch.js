@@ -13,8 +13,8 @@ var fileName;
 var savedFile;
 
 function preload() {
-  img1 = loadImage("images/florence.jpg");
-  img2 = loadImage("images/yflorence.jpg");
+  img1 = loadImage("images/florence.JPG");
+  img2 = loadImage("images/yflorence.JPG");
 }
 
 function setup() {

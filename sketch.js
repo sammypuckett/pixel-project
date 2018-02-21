@@ -1,48 +1,58 @@
 var img1;
 var img2;
-var img3;
 var imgc1;
 var imgc2;
 var imgShift = -215;
 var controlShiftX = 215;
-var controlShiftY = 5;
+var controlShiftY = 227;
+var sbShiftX = -8;
+var sbShiftY = -6;
 var numStripesSlider, stripeSizeSlider, zoomSlider, patternSlider;
 var saveButton;
 var fileName;
 var savedFile;
 
 function preload() {
-  img1 = loadImage("images/florence.JPG");
-  imgc1 = loadImage("images/florence.JPG"); //same image as img1
-  img2 = loadImage("images/yflorence.JPG");
-  imgc2 = loadImage("images/yflorence.JPG"); //same image as img2
-  img3 = loadImage("images/yflorence2.JPG");
+  img1 = loadImage("images/florence.jpg");
+  img2 = loadImage("images/yflorence.jpg");
 }
 
 function setup() {
+  var imgc1 = createImage(img1.width, img1.height);
+  imgc1.copy(img1, 0, 0, img1.width, img1.height, 0, 0, img1.width, img1.height);
+  var imgc2 = createImage(img2.width, img2.height);
+  imgc2.copy(img2, 0, 0, img2.width, img2.height, 0, 0, img2.width, img2.height);
+
   createCanvas(img1.width + 500, img1.height);
+  console.log("first image width: " + img1.width + " height: " + img1.height);
+  console.log("second image width: " + img2.width + " height: " + img2.height);
   imgc1.resize(202, 0);
   imgc2.resize(202, 0);
   image(imgc1, 5, 220 + imgShift, 202, imgc1.height);
   image(imgc2, 5, imgc1.height + 235 + imgShift, 202, imgc2.height);
-  console.log("first image width: " + img1.width + " height: " + img1.height);
-  console.log("second image width: " + img2.width + " height: " + img2.height);
 
   numStripesSlider = createSlider(2, 1000, 50);
-  numStripesSlider.position(27 + controlShiftX, 35 + controlShiftY);
+  numStripesSlider.position(27 + controlShiftX + sbShiftX, 35 + controlShiftY + sbShiftY);
   stripeSizeSlider = createSlider(5, 300, 7);
-  stripeSizeSlider.position(27 + controlShiftX, 85 + controlShiftY);
+  stripeSizeSlider.position(27 + controlShiftX + sbShiftX, 85 + controlShiftY + sbShiftY);
   zoomSlider = createSlider(1, 10, 1, 1/4);
-  zoomSlider.position(27 + controlShiftX, 135 + controlShiftY);
+  zoomSlider.position(27 + controlShiftX + sbShiftX, 135 + controlShiftY + sbShiftY);
   patternSlider = createSlider(1, 2, 1);
-  patternSlider.position(27 + controlShiftX, 185 + controlShiftY);
+  patternSlider.position(27 + controlShiftX + sbShiftX, 185 + controlShiftY + sbShiftY);
 
   fileName = createInput();
-  fileName.position(27 + controlShiftX, 235 + controlShiftY);
+  fileName.position(27 + controlShiftX + sbShiftX, 235 + controlShiftY + sbShiftY);
   saveButton = createButton('go!');
-  saveButton.position(168 + controlShiftX, 235 + controlShiftY);
+  saveButton.position(168 + controlShiftX + sbShiftX, 235 + controlShiftY + sbShiftY);
   saveButton.mousePressed(savePicture);
 
+  strokeWeight(2);
+  rect(6 + controlShiftX, -221 + controlShiftY, 200, 206);
+
+  textSize(15);
+  strokeWeight(0);
+  fill(0);
+  text('split two images either\nhorizontally or vertically!\n\nuse two images with the \nsame dimensions!\n\npro tip: save image at\nzoom = 1 for better quality!\n\ncreated by Sammy Puckett', 18 + controlShiftX, -197 + controlShiftY);
 }
 
 function draw() {
@@ -65,20 +75,13 @@ function draw() {
   text('number of stripes = ' + numStripesSlider.value(), 20 + controlShiftX, 25 + controlShiftY);
   text('stripe size = ' + stripeSizeSlider.value(), 20 + controlShiftX, 75 + controlShiftY);
   text('zoom = 1/' + zoomSlider.value(), 20 + controlShiftX, 125 + controlShiftY);
-  text('save (name)', 20 + controlShiftX, 220 + controlShiftY);
+  text('save (file name)', 20 + controlShiftX, 220 + controlShiftY);
 
   if(patternSlider.value() == 1){
     text('pattern = horizontal', 20 + controlShiftX, 175 + controlShiftY);
   } else {
     text('pattern = vertical', 20 + controlShiftX, 175 + controlShiftY);
   }
-
-  //image(img,dx,dy,dWidth,dHeight,sx,sy,sWidth,sHeight)
-  //dx = x coord of destination rectangle, dy = y coord of destination rectangle
-  //dWidth = width of the destination rectangle, dHeight = height of the destination rectangle
-  //sx = x coord of subsection of source image, sy = y coord of subsection of source images
-  //sWidth = width of subsection of source image, sHeight = height of subsection of source image
-  //see https://p5js.org/reference/#/p5/image for more info
 
   if(patternSlider.value() == 1){
     for(i=0; i<numstripes; i+=2) {  //horizontal

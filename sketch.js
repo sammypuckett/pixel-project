@@ -83,7 +83,13 @@ function draw() {
     text('pattern = vertical', 20 + controlShiftX, 175 + controlShiftY);
   }
 
-  if(patternSlider.value() == 1){ //draws manipulated image combination
+  manipulateImage(); //draws manipulated image combination
+
+  savedFile = get(435, 5, img1.width/zoom, img1.height/zoom); //determines saved file parameters as those of the manipulated image
+}
+
+function manipulateImage() { //draws manipulated image combination
+ if(patternSlider.value() == 1){
     for(i=0; i<numstripes; i+=2) {  //splits horizontally, goes by twos because of alternating image stripes
       image(img1, 435, 5 + (stripesize*i)/zoom, img1.width/zoom, stripesize/zoom, 0, stripesize*i, img1.width, stripesize); //re-maps the first image into rectangular sections, stacks vertically, width and height determined by "zoom" variable, height of rectangles determined by "stripesize" variable
       image(img2, 435, 5 + (stripesize*(i+1))/zoom, img2.width/zoom, stripesize/zoom, 0, stripesize*(i+1), img2.width, stripesize); //re-maps the second image into rectangular sections, stacks vertically, width and height determined by "zoom" variable, height of rectangles determined by "stripesize" variable
@@ -94,8 +100,6 @@ function draw() {
       image(img2, 435 + ((i+1)*stripesize)/zoom, 5, stripesize/zoom, img2.height/zoom, stripesize*(i+1), 0, stripesize, img2.height); //re-maps the second image into rectangular sections, stacks horizontally, width and height determined by "zoom" variable, width of rectangles determined by "stripesize" variable
     }
   }
-
-  savedFile = get(435, 5, img1.width/zoom, img1.height/zoom); //determines saved file parameters as those of the manipulated image
 }
 
 function savePicture() { //saves manipulated image with inputted file name as a JPG
